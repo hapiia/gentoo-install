@@ -1,6 +1,6 @@
 - hosts: 127.0.0.1
   remote_user: root
   tasks:
-    - mount: name=/boot src=/dev/vda2 fstype=ext2 opts=defaults,noatime state=mounted
-    - mount: name=none src=/dev/vda3 fstype=swap opts=sw state=mounted
-    - mount: name=/ src=/dev/vda2 fstype=ext4 opts=noatime state=mounted
+    - mount: name=/boot src=/dev/sda2 fstype=ext2 opts=defaults,noatime state=mounted
+    - mount: name=none src=/dev/sda3 fstype=swap opts=sw state=present
+    - mount: name=/ src=/dev/sda4 fstype=ext4 opts=noatime state=mounted
