@@ -37,9 +37,14 @@ echo "CONFIG_VIRTIO_NET=y" >> /usr/src/linux/.config
 echo "CONFIG_PARAVIRT=y" >> /usr/src/linux/.config
 echo "CONFIG_KVM_GUEST=y" >> /usr/src/linux/.config
 
+echo "CONFIG_VMWARE_BALLOON=y" >> /usr/src/linux/.config
+echo "CONFIG_VMWARE_PVSCSI=y" >> /usr/src/linux/.config
+echo "CONFIG_VMXNET3=y" >> /usr/src/linux/.config
+
 make && make modules_install
 make install
 
+cd /
 emerge vim
 emerge dev-python/pip
 
