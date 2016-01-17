@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 
-devicepath=/dev/vda
+devicepath=/dev/sda
 
 source /etc/profile
 export PS1="(chroot) $PS1"

@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 
-devicepath=/dev/vda
+devicepath=/dev/sda
 ipaddr=
 netmask=255.255.254.0
 broadcast=
@@ -11,7 +11,7 @@ gateway=
 #echo "config_eth0=\"${ipaddr} netmask ${netmask} brd ${broadcast}\"" > /etc/conf.d/net
 #echo "routes_eth0=\"default via ${gateway}\"" >> /etc/conf.d/net
 
-echo "config_eth0=\"dhcp\""
+echo "config_eth0=\"dhcp\"" > /etc/conf.d/net
 
 cd /etc/init.d
 ln -s net.lo net.eth0

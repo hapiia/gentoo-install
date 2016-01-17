@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 
-devicepath=/dev/vda
+devicepath=/dev/sda
 
 parted -s -a optimal ${devicepath} -- mklabel gpt \
 unit mib \
