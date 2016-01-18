@@ -37,9 +37,22 @@ echo "CONFIG_VIRTIO_NET=y" >> /usr/src/linux/.config
 echo "CONFIG_PARAVIRT=y" >> /usr/src/linux/.config
 echo "CONFIG_KVM_GUEST=y" >> /usr/src/linux/.config
 
+echo "CONFIG_VMWARE_VMCI=y" >> /usr/src/linux/.config
+echo "CONFIG_HYPERVISOR_GUEST=y" >> /usr/src/linux/.config
+echo "CONFIG_VSOCKETS=y" >> /usr/src/linux/.config
+echo "CONFIG_VMESRE_VMCI_VSOCKETS=y" >> /usr/src/linux/.config
 echo "CONFIG_VMWARE_BALLOON=y" >> /usr/src/linux/.config
+echo "CONFIG_SCSI_LOWLEVEL=y" >> /usr/src/linux/.config
 echo "CONFIG_VMWARE_PVSCSI=y" >> /usr/src/linux/.config
+echo "CONFIG_FUSION=y" >> /usr/src/linux/.config
+echo "CONFIG_FUSION_SPI=y" >> /usr/src/linux/.config
+echo "CONFIG_FUSION_MAX_SGE=128" >> /usr/src/linux/.config
+
 echo "CONFIG_VMXNET3=y" >> /usr/src/linux/.config
+echo "CONFIG_I2C_PIIX4=y" >> /usr/src/linux/.config
+echo "CONFIG_DRM_TTM=y" >> /usr/src/linux/.config
+echo "CONFIG_DRM_VMWGFX=y" >> /usr/src/linux/.config
+echo "CONFIG_FB_DEPERRED_IO=y" >> /usr/src/linux/.config
 
 make && make modules_install
 make install
