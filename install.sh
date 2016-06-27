@@ -2,6 +2,10 @@
 
 devicepath=/dev/sda
 
+if [ $# -eq 1 ]; then
+ devicepath="$1"
+fi
+
 parted -s -a optimal ${devicepath} -- mklabel gpt \
 unit mib \
 mkpart primary 1 3 \
@@ -27,7 +31,11 @@ mount ${devicepath}2 /mnt/gentoo/boot
 
 cd /mnt/gentoo
 
-wget http://ftp.iij.ad.jp/pub/linux/gentoo/releases/amd64/autobuilds/current-stage3-amd64/stage3-amd64-20160114.tar.bz2
+wget --no-check-certificate https://github.com/hapiia/gentoo-install/blob/master/install2.sh
+chmod 755 install2.sh
+
+mydate=`date '+%Y%m'`
+wget -nc ftp://ftp.iij.ad.jp/pub/linux/gentoo/releases/amd64/autobuilds/current-stage3-amd64/stage3-amd64-${mydate}*.tar.bz2
 
 tar xvjpf stage3-*.tar.bz2 --xattrs
 

@@ -1,13 +1,17 @@
 #!/usr/bin/env bash
 
 devicepath=/dev/sda
+
+if [ $# -eq 1 ]; then
+ devicepath="$1"
+fi
+
 ipaddr=
 netmask=255.255.254.0
 broadcast=
 gateway=
 
-source /etc/profile
-export PS1="(chroot) $PS1"
+source /etc/profile && export PS1="(chroot) $PS1"
 
 emerge-webrsync
 
@@ -16,16 +20,19 @@ emerge-webrsync
 echo "Japan" > /etc/timezone
 emerge --config sys-libs/timezone-data
 
-echo "en_US.UTF-8 UTF-8" > /etc/locale.gen
-
-locale-gen
+echo "en_US.UTF-8 UTF-8" > /etc/locale.gen && locale-gen
 
 # eselect locale list
 eselect locale set 1
 
 env-update && source /etc/profile
 
-emerge sys-kernel/gentoo-sources sys-apps/pciutils
+echo GRUB_PLATFORMS="efi-64" >> /etc/portage/make.conf
+
+emerge sys-kernel/gentoo-sources sys-apps/pciutils vim dev-python/pip app-admin/sysklogd firewalld sys-boot/grub:2 net-misc/dhcpcd
+
+pip install ansible
+
 
 cd /usr/src/linux
 
@@ -54,40 +61,21 @@ echo "CONFIG_DRM_TTM=y" >> /usr/src/linux/.config
 echo "CONFIG_DRM_VMWGFX=y" >> /usr/src/linux/.config
 echo "CONFIG_FB_DEPERRED_IO=y" >> /usr/src/linux/.config
 
-make && make modules_install
-make install
+make && make modules_install && make install
 
-cd /
-emerge vim
-emerge dev-python/pip
-
-pip install ansible
-ansible-playbook fstab.yml --connection=local
-#ansible-playbook -i servers main.yml
-# fstab
-
-# already setted hostname="localhost"
-# vim /etc/conf.d/hostname
 #echo "config_eth0=\"${ipaddr} netmask ${netmask} brd ${broadcast}\"" > /etc/conf.d/net
 #echo "routes_eth0=\"default via ${gateway}\"" >> /etc/conf.d/net
 
 echo "config_eth0=\"dhcp\"" > /etc/conf.d/net
+cd /etc/init.d && ln -s net.lo net.eth0
 
-cd /etc/init.d
-ln -s net.lo net.eth0
-rc-update add net.eth0 default
+ansible-playbook service.yml --connection=local
+ansible-playbook hostname.yml --connection=local
+ansible-playbook fstab.yml --extra-vars "two=${devicepath}2 three=${devicepath}3 four=${devicepath}4" --connection=local
 
-# /etc/hosts
-# default
+# grub2-install ${devicepath}
+grub2-install --target=x86_64-efi --efi-directory=/boot
+grub2-mkconfig -o /boot/grub/grub.cfg
 
 # setting rootpassword
 passwd
-emerge app-admin/sysklogd
-rc-update add sysklogd default
-rc-update add sshd default
-
-emerge sys-boot/grub
-
-grub2-install ${devicepath}
-
-grub2-mkconfig -o /boot/grub/grub.cfg

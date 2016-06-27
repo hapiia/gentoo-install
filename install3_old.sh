@@ -24,7 +24,7 @@ rc-update add net.eth0 default
 passwd
 emerge app-admin/sysklogd
 rc-update add sysklogd default
-rc-update add sshd default
+# rc-update add sshd default
 
 emerge sys-boot/grub
 

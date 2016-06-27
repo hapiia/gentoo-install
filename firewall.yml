@@ -1,0 +1,4 @@
+- hosts: 127.0.0.1
+  remote_user: root
+  tasks:
+    - firewalld: zone=block interface=eth0 permanent=true state=enabled

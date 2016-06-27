@@ -1,0 +1,14 @@
+- hosts: 127.0.0.1
+  remote_user: root
+  tasks:
+  - command: nmcli connection modify {{ nic }} ipv4.method manual ipv4.addresses {{ new_addr }}/{{ prefix }} ipv4.gateway {{ gateway }} ipv4.dns {{ dns }}
+  - shell: sleep 1; ifdown {{ nic }} && ifup {{ nic }}
+    async: -1
+    poll: 0
+  - block:
+    - command: pkill -f {{ lookup('pipe', 'echo $HOME') }}/.ansible/cp/ansible-ssh-
+      ignore_errors: yes
+      run_once: yes
+    - lineinfile: dest=/etc/hosts backrefs=yes regexp='^\S+( .*{{ inventory_hostname | regex_escape }}.*)$' line='{{ new_addr }}\1'
+    - wait_for: host={{ new_addr }} port=22 delay=1 timeout=50
+    delegate_to: localhost
