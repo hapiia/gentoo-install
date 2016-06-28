@@ -29,6 +29,9 @@ env-update && source /etc/profile
 
 echo GRUB_PLATFORMS="efi-64" >> /etc/portage/make.conf
 
+emerge --autounmask-write sys-kernel/gentoo-sources sys-apps/pciutils vim dev-python/pip app-admin/sysklogd firewalld sys-boot/grub:2 net-misc/dhcpcd
+dispatch-conf
+
 emerge sys-kernel/gentoo-sources sys-apps/pciutils vim dev-python/pip app-admin/sysklogd firewalld sys-boot/grub:2 net-misc/dhcpcd
 
 pip install ansible
