@@ -31,7 +31,7 @@ mount ${devicepath}2 /mnt/gentoo/boot
 
 cd /mnt/gentoo
 
-wget --no-check-certificate https://github.com/hapiia/gentoo-install/blob/master/install2.sh
+wget --no-check-certificate https://github.com/hapiia/gentoo-install/raw/master/install2.sh
 chmod 755 install2.sh
 
 mydate=`date '+%Y%m'`
