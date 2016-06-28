@@ -38,28 +38,71 @@ cd /usr/src/linux
 
 make defconfig
 
-echo "CONFIG_VIRTIO_BLK=y" >> /usr/src/linux/.config
-echo "CONFIG_VIRTIO_PCI=y" >> /usr/src/linux/.config
-echo "CONFIG_VIRTIO_NET=y" >> /usr/src/linux/.config
-echo "CONFIG_PARAVIRT=y" >> /usr/src/linux/.config
-echo "CONFIG_KVM_GUEST=y" >> /usr/src/linux/.config
+# echo "CONFIG_VIRTIO_BLK=y" >> /usr/src/linux/.config
+# echo "CONFIG_VIRTIO_PCI=y" >> /usr/src/linux/.config
+# echo "CONFIG_VIRTIO_NET=y" >> /usr/src/linux/.config
+# echo "CONFIG_PARAVIRT=y" >> /usr/src/linux/.config
+# echo "CONFIG_KVM_GUEST=y" >> /usr/src/linux/.config
 
-echo "CONFIG_VMWARE_VMCI=y" >> /usr/src/linux/.config
-echo "CONFIG_HYPERVISOR_GUEST=y" >> /usr/src/linux/.config
-echo "CONFIG_VSOCKETS=y" >> /usr/src/linux/.config
-echo "CONFIG_VMESRE_VMCI_VSOCKETS=y" >> /usr/src/linux/.config
-echo "CONFIG_VMWARE_BALLOON=y" >> /usr/src/linux/.config
-echo "CONFIG_SCSI_LOWLEVEL=y" >> /usr/src/linux/.config
-echo "CONFIG_VMWARE_PVSCSI=y" >> /usr/src/linux/.config
-echo "CONFIG_FUSION=y" >> /usr/src/linux/.config
-echo "CONFIG_FUSION_SPI=y" >> /usr/src/linux/.config
-echo "CONFIG_FUSION_MAX_SGE=128" >> /usr/src/linux/.config
+# echo "CONFIG_VMWARE_VMCI=y" >> /usr/src/linux/.config
+# echo "CONFIG_HYPERVISOR_GUEST=y" >> /usr/src/linux/.config
+# echo "CONFIG_VSOCKETS=y" >> /usr/src/linux/.config
+# echo "CONFIG_VMESRE_VMCI_VSOCKETS=y" >> /usr/src/linux/.config
+# echo "CONFIG_VMWARE_BALLOON=y" >> /usr/src/linux/.config
+# echo "CONFIG_SCSI_LOWLEVEL=y" >> /usr/src/linux/.config
+# echo "CONFIG_VMWARE_PVSCSI=y" >> /usr/src/linux/.config
+# echo "CONFIG_FUSION=y" >> /usr/src/linux/.config
+# echo "CONFIG_FUSION_SPI=y" >> /usr/src/linux/.config
+# echo "CONFIG_FUSION_MAX_SGE=128" >> /usr/src/linux/.config
 
-echo "CONFIG_VMXNET3=y" >> /usr/src/linux/.config
-echo "CONFIG_I2C_PIIX4=y" >> /usr/src/linux/.config
-echo "CONFIG_DRM_TTM=y" >> /usr/src/linux/.config
-echo "CONFIG_DRM_VMWGFX=y" >> /usr/src/linux/.config
-echo "CONFIG_FB_DEPERRED_IO=y" >> /usr/src/linux/.config
+# echo "CONFIG_VMXNET3=y" >> /usr/src/linux/.config
+# echo "CONFIG_I2C_PIIX4=y" >> /usr/src/linux/.config
+# echo "CONFIG_DRM_TTM=y" >> /usr/src/linux/.config
+# echo "CONFIG_DRM_VMWGFX=y" >> /usr/src/linux/.config
+# echo "CONFIG_FB_DEPERRED_IO=y" >> /usr/src/linux/.config
+
+# echo "CONFIG_RELOCATABLE=y" >> /usr/src/linux/.config
+# echo "CONFIG_EFI=y" >> /usr/src/linux/.config
+# echo "CONFIG_EFI_STUB=y" >> /usr/src/linux/.config
+# echo "CONFIG_FB_EFI=y" >> /usr/src/linux/.config
+# echo "CONFIG_FRAMEBUFFER_CONSOLE=y" >> /usr/src/linux/.config
+# echo "CONFIG_EFIVAR_FS=y" >> /usr/src/linux/.config
+# echo "CONFIG_EFI_VARS=n" >> /usr/src/linux/.config
+# echo "CONFIG_EFI_PARTITION=y" >> /usr/src/linux/.config
+
+cat << EOF >> /usr/src/linux/.config
+CONFIG_VIRTIO_BLK=y
+CONFIG_VIRTIO_PCI=y
+CONFIG_VIRTIO_NET=y
+CONFIG_PARAVIRT=y
+CONFIG_KVM_GUEST=y
+
+CONFIG_VMWARE_VMCI=y
+CONFIG_HYPERVISOR_GUEST=y
+CONFIG_VSOCKETS=y
+CONFIG_VMESRE_VMCI_VSOCKETS=y
+CONFIG_VMWARE_BALLOON=y
+CONFIG_SCSI_LOWLEVEL=y
+CONFIG_VMWARE_PVSCSI=y
+CONFIG_FUSION=y
+CONFIG_FUSION_SPI=y
+CONFIG_FUSION_MAX_SGE=128
+
+CONFIG_VMXNET3=y
+CONFIG_I2C_PIIX4=y
+CONFIG_DRM_TTM=y
+CONFIG_DRM_VMWGFX=y
+CONFIG_FB_DEPERRED_IO=y
+
+CONFIG_RELOCATABLE=y
+CONFIG_EFI=y
+CONFIG_EFI_STUB=y
+CONFIG_FB_EFI=y
+CONFIG_FRAMEBUFFER_CONSOLE=y
+CONFIG_EFIVAR_FS=y
+CONFIG_EFI_VARS=n
+CONFIG_EFI_PARTITION=y
+EOF
 
 make && make modules_install && make install
 
