@@ -17,7 +17,7 @@ emerge-webrsync
 
 #eselect profile set 2
 
-echo "Japan" > /etc/timezone
+echo "Asia/Tokyo" > /etc/timezone
 emerge --config sys-libs/timezone-data
 
 echo "en_US.UTF-8 UTF-8" > /etc/locale.gen && locale-gen
@@ -27,14 +27,13 @@ eselect locale set 1
 
 env-update && source /etc/profile
 
-echo GRUB_PLATFORMS="efi-64" >> /etc/portage/make.conf
+# echo GRUB_PLATFORMS="efi-64" >> /etc/portage/make.conf
+echo MAKEOPTS="-j8" >> /etc/portage/make.conf
 
-emerge --autounmask-write sys-kernel/gentoo-sources sys-apps/pciutils vim dev-python/pip app-admin/sysklogd firewalld sys-boot/grub:2 net-misc/dhcpcd
-dispatch-conf
+emerge --autounmask-write sys-kernel/gentoo-sources sys-apps/pciutils vim dev-python/pip app-admin/sysklogd firewalld sys-boot/grub:2 net-misc/dhcpcd app-admin/ansible
+dispatch-conf < u
 
 emerge sys-kernel/gentoo-sources sys-apps/pciutils vim dev-python/pip app-admin/sysklogd firewalld sys-boot/grub:2 net-misc/dhcpcd
-
-pip install ansible
 
 
 cd /usr/src/linux
@@ -74,6 +73,8 @@ make defconfig
 # echo "CONFIG_EFI_PARTITION=y" >> /usr/src/linux/.config
 
 cat << EOF >> /usr/src/linux/.config
+CONFIG_USB_HID=y
+
 CONFIG_VIRTIO_BLK=y
 CONFIG_VIRTIO_PCI=y
 CONFIG_VIRTIO_NET=y
@@ -96,15 +97,6 @@ CONFIG_I2C_PIIX4=y
 CONFIG_DRM_TTM=y
 CONFIG_DRM_VMWGFX=y
 CONFIG_FB_DEPERRED_IO=y
-
-CONFIG_RELOCATABLE=y
-CONFIG_EFI=y
-CONFIG_EFI_STUB=y
-CONFIG_FB_EFI=y
-CONFIG_FRAMEBUFFER_CONSOLE=y
-CONFIG_EFIVAR_FS=y
-CONFIG_EFI_VARS=n
-CONFIG_EFI_PARTITION=y
 EOF
 
 make && make modules_install && make install
@@ -115,13 +107,16 @@ make && make modules_install && make install
 echo "config_eth0=\"dhcp\"" > /etc/conf.d/net
 cd /etc/init.d && ln -s net.lo net.eth0
 
+wget --no-check-certificate https://github.com/hapiia/gentoo-install/raw/master/service.yml
+wget --no-check-certificate https://github.com/hapiia/gentoo-install/raw/master/hostname.yml
+wget --no-check-certificate https://github.com/hapiia/gentoo-install/raw/master/fstab.yml
 ansible-playbook service.yml --connection=local
 ansible-playbook hostname.yml --connection=local
 ansible-playbook fstab.yml --extra-vars "two=${devicepath}2 three=${devicepath}3 four=${devicepath}4" --connection=local
 
-# grub2-install ${devicepath}
-grub2-install --target=x86_64-efi --efi-directory=/boot
+grub2-install ${devicepath}
+# grub2-install --target=x86_64-efi --efi-directory=/boot
 grub2-mkconfig -o /boot/grub/grub.cfg
 
 # setting rootpassword
-passwd
+# passwd
