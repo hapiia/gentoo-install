@@ -31,8 +31,8 @@ env-update && source /etc/profile
 echo MAKEOPTS="-j8" >> /etc/portage/make.conf
 
 emerge --autounmask-write sys-kernel/gentoo-sources sys-apps/pciutils vim dev-python/pip app-admin/sysklogd firewalld sys-boot/grub:2 net-misc/dhcpcd app-admin/ansible
-dispatch-conf < u
-
+# dispatch-conf < u
+dispatch-conf
 emerge sys-kernel/gentoo-sources sys-apps/pciutils vim dev-python/pip app-admin/sysklogd firewalld sys-boot/grub:2 net-misc/dhcpcd
 
 
@@ -74,6 +74,7 @@ make defconfig
 
 cat << EOF >> /usr/src/linux/.config
 CONFIG_USB_HID=y
+CONFIG_USB_XHCI_HCD=y
 
 CONFIG_VIRTIO_BLK=y
 CONFIG_VIRTIO_PCI=y
