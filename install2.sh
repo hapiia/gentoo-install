@@ -120,13 +120,14 @@ cd /etc/init.d && ln -s net.lo net.eth0
 wget --no-check-certificate https://github.com/hapiia/gentoo-install/raw/master/service.yml
 wget --no-check-certificate https://github.com/hapiia/gentoo-install/raw/master/hostname.yml
 wget --no-check-certificate https://github.com/hapiia/gentoo-install/raw/master/fstab.yml
+pip install ansible
 ansible-playbook service.yml --connection=local
 ansible-playbook hostname.yml --connection=local
 ansible-playbook fstab.yml --extra-vars "two=${devicepath}2 three=${devicepath}3 four=${devicepath}4" --connection=local
 
-grub2-install ${devicepath}
+grub-install ${devicepath}
 # grub2-install --target=x86_64-efi --efi-directory=/boot
-grub2-mkconfig -o /boot/grub/grub.cfg
+grub-mkconfig -o /boot/grub/grub.cfg
 
 # setting rootpassword
 # passwd
