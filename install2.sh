@@ -107,6 +107,8 @@ CONFIG_I2C_PIIX4=y
 CONFIG_DRM_TTM=y
 CONFIG_DRM_VMWGFX=y
 CONFIG_FB_DEPERRED_IO=y
+
+CONFIG_R8169=y
 EOF
 
 make && make modules_install && make install
