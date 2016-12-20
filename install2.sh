@@ -131,5 +131,8 @@ grub-install ${devicepath}
 # grub2-install --target=x86_64-efi --efi-directory=/boot
 grub-mkconfig -o /boot/grub/grub.cfg
 
+# useradd -m -G users,wheel,audio,video,usb -s /bin/bash username
+# passwd username
+
 # setting rootpassword
 # passwd
